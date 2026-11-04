@@ -1,0 +1,91 @@
+# The whole system on one machine: PostgreSQL (the audit chain), Redis (blocks, counters, replay markers) and the service.
+#   make demo   builds and starts everything; the site, the lab and the API are on http://localhost:8000
+#   make e2e    runs the browser tests against the same stack
+# Every secret comes from .env (make env writes one with fresh random values). Nothing here is a real credential.
+name: nightwatch
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nightwatch
+      POSTGRES_DB: nightwatch
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?run "make env" first}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nightwatch -d nightwatch"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  # Append-only, because what lives here (blocks, lockdown, suspensions) must survive a restart: a lockdown that
+  # evaporates when Redis reboots is not a lockdown.
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    ports: ["127.0.0.1:${APP_PORT:-8000}:3000"]
+    depends_on:
+      db: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      PORT: "3000"
+      APP_ENV: development
+      # The lab: a demo application to attack, scripted attacks, a movable clock, a way to tamper with the audit chain.
+      # APP_ENV=production refuses to start with it on.
+      LAB_MODE: "true"
+      SITE_DIR: /app/site
+      DATABASE_URL: postgresql://nightwatch:${DB_PASSWORD}@db:5432/nightwatch
+      REDIS_URL: redis://redis:6379
+      API_KEY: ${API_KEY:-change-me}
+      AUDIT_CHAIN_SECRET: ${AUDIT_CHAIN_SECRET:?run "make env" first}
+      WEBHOOK_SECRETS: ${WEBHOOK_SECRET:?run "make env" first}
+      TOTP_SECRET: ${TOTP_SECRET:?run "make env" first}
+      ADMIN_IPS: 10.20.0.0/16
+      ALLOWED_REDIRECT_ORIGINS: https://app.example.test
+      # Opt in, in the .env, to see what the stricter settings do:
+      TRAVEL_SUSPENDS: ${TRAVEL_SUSPENDS:-false}
+      HONEY_TRIGGERS_LOCKDOWN: ${HONEY_TRIGGERS_LOCKDOWN:-false}
+      FAIL_CLOSED: ${FAIL_CLOSED:-false}
+      ANALYST_URL: ${ANALYST_URL:-}
+      ANALYST_MODEL: ${ANALYST_MODEL:-local-model}
+      ANALYST_KEY: ${ANALYST_KEY:-}
+
+  # Browser tests. They share the service's network namespace, so the page is http://localhost:3000, a secure context
+  # (WebCrypto and the clipboard need one) without any browser flag.
+  e2e:
+    profiles: [e2e]
+    image: mcr.microsoft.com/playwright:v1.49.1-jammy
+    network_mode: "service:app"
+    working_dir: /work/e2e
+    volumes:
+      - ./e2e:/work/e2e
+      - ./docs/img:/work/docs/img
+    environment:
+      E2E_BASE_URL: http://localhost:3000
+      E2E_API_KEY: ${API_KEY:-change-me}
+      CI: "1"
+    depends_on:
+      app: { condition: service_healthy }
+    command: ["bash", "-lc", "npm ci --no-audit --no-fund && npx tsc --noEmit && npx playwright test"]
+
+volumes:
+  dbdata:
+  redisdata:
