@@ -17,7 +17,7 @@ _What_ and _when_. The _how_ lives in the code and tests, the _why_ in the [ADRs
 | 11  | Mutation check of the critical rules                                               | done    | `scripts/mutation-check.mjs`, `make mutate`                                                       |
 | 12  | Containers and health-gated compose                                                | done    | `Dockerfile`, `docker-compose.yml`                                                                |
 | 13  | Browser tests with accessibility scans, against the real stack                     | done    | `e2e/`, `make e2e`                                                                                |
-| 14  | CI workflow                                                                        | written | `.github/workflows/ci.yml`: linted with actionlint, not yet run on GitHub                         |
+| 14  | CI workflow                                                                        | done    | `.github/workflows/ci.yml`: actionlint clean; green on GitHub on 2026-11-04 (six jobs)             |
 | 15  | A seat per operator (own TOTP seed and lockout bucket)                             | todo    | README "Limitations", ADR 0003                                                                    |
 | 16  | An "is this address blocked?" endpoint for integrators                             | todo    | README "Limitations"                                                                              |
 | 17  | Receipts written to write-once storage                                             | todo    | ADR 0001                                                                                          |

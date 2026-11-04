@@ -18,8 +18,8 @@ verified; the numbers are in section 8. Open items are in the checklist.
 
 ## 3. What the owner does now
 
-Push to GitHub and enable Actions: the workflow in `.github/workflows/ci.yml` is linted but had not run there when this
-was written. Translations of the landing page were written by the assistant (machine quality); ask a native speaker to read
+Decide when the repository becomes public: it is private on GitHub and the workflow in `.github/workflows/ci.yml` ran green
+there on 2026-11-04 (six jobs: lint and types, tests on real stores, mutation, image build and boot, browser, secret scan). Translations of the landing page were written by the assistant (machine quality); ask a native speaker to read
 Hindi, Bengali, Urdu and Arabic before the repository is shown to anyone who reads them.
 
 ## 4. Deadlines
@@ -81,4 +81,4 @@ None.
 Measured on 2026-11-04: 476 tests in 23 files (pure logic and integration against a real PostgreSQL and Redis);
 58 browser tests (`make e2e`, against the Compose stack: axe scans of the landing page and every lab tab in both themes, and
 24 language tests), plus 4 screenshot tests that are skipped unless `SHOTS=1`; 33 of 33 mutants caught (`make mutate`);
-`biome` and `tsc --strict` clean; `hadolint` and `actionlint` clean. The GitHub Actions workflow had not run when this was written.
+`biome` and `tsc --strict` clean; `hadolint` and `actionlint` clean. The GitHub Actions run of 2026-11-04 passed all six jobs.
