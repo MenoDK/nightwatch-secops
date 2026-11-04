@@ -1,4 +1,4 @@
-/* Français. Texte seulement : les clés suivent la forme de content.js, et ce qui manque s’affiche en anglais. */
+/* French overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).fr = {
   title: 'nightwatch-secops · un moteur d’opérations de sécurité dont le journal s’aperçoit qu’on l’a modifié',
   loading: {

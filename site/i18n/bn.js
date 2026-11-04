@@ -1,4 +1,4 @@
-/* বাংলা। শুধু লেখা: কী-গুলো content.js-এর গঠন অনুসরণ করে, আর যা বাদ পড়ে তা ইংরেজিতে দেখায়। */
+/* Bengali overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).bn = {
   title: 'nightwatch-secops · একটি নিরাপত্তা-পরিচালনা ইঞ্জিন, যার লগ বদলানো হলে টের পায়',
   loading: {

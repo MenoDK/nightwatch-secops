@@ -1,4 +1,4 @@
-/* Deutsch. Nur Text: Die Schlüssel folgen der Form von content.js, und was fehlt, erscheint auf Englisch. */
+/* German overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).de = {
   title: 'nightwatch-secops · eine Security-Operations-Engine, deren Protokoll merkt, wenn es verändert wird',
   loading: {

@@ -1,4 +1,4 @@
-/* 简体中文。只含文字：键与 content.js 的结构一致，缺少的部分以英文显示。 */
+/* Simplified Chinese overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).zh = {
   title: 'nightwatch-secops · 日志被改动时能察觉的安全运营引擎',
   loading: {

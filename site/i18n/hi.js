@@ -1,4 +1,4 @@
-/* हिन्दी। केवल पाठ: कुंजियाँ content.js की बनावट का पालन करती हैं, और जो छूटा हो वह अंग्रेज़ी में दिखता है। */
+/* Hindi overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).hi = {
   title: 'nightwatch-secops · एक सुरक्षा-संचालन इंजन, जिसका लॉग बदले जाने पर भाँप लेता है',
   loading: {

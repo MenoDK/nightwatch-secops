@@ -1,4 +1,4 @@
-/* العربية. نص فقط: المفاتيح تتبع بنية content.js، وما يغيب يظهر بالإنجليزية. */
+/* Arabic overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).ar = {
   title: 'nightwatch-secops · محرك لعمليات الأمن يلاحظ سجله إن عُبث به',
   loading: {

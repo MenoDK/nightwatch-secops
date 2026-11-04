@@ -1,4 +1,4 @@
-/* اردو۔ صرف متن: کلیدیں content.js کی ساخت کی پیروی کرتی ہیں، اور جو رہ جائے وہ انگریزی میں دکھایا جاتا ہے۔ */
+/* Urdu overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).ur = {
   title: 'nightwatch-secops · سکیورٹی آپریشنز کا انجن جس کا لاگ تبدیلی کو بھانپ لیتا ہے',
   loading: {

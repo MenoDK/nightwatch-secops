@@ -1,4 +1,4 @@
-/* Русский. Только текст: ключи повторяют форму content.js, а чего не хватает, показывается по-английски. */
+/* Russian overlay. Text only: the keys mirror the shape of content.js, and anything missing falls back to English. */
 (window.SITE_I18N ||= {}).ru = {
   title: 'nightwatch-secops · движок операций безопасности, чей журнал замечает, что его изменили',
   loading: {
